@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Expense Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="container mt-5">
+    <h2>Expense Chart (By Category)</h2>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <br>
+    <a href="/dashboard">Back to Dashboard</a>
+
+    <script>
+        fetch('/charts-data')
+            .then(res => res.json())
+            .then(data => {
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: 'Expenses',
+                            data: data.values,
+                            backgroundColor: [
+                                '#007bff', '#28a745', '#ffc107', '#dc3545', '#17a2b8', '#6f42c1'
+                            ]
+                        }]
+                    }
+                });
+            })
+            .catch(err => console.error('Chart load error:', err));
+    </script>
+</body>
+</html>
